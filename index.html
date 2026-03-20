@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apprendre le Smash - EPS</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+<div class="w-full max-w-3xl bg-white shadow-2xl rounded-3xl p-6 md:p-10">
+<!-- PAGE ACCUEIL -->
+<div id="homePage" class="text-center">
+<h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">Apprendre le Smash</h1>
+<p class="text-gray-500 text-lg md:text-xl mb-12">Application EPS – Tennis de table</p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
+<button onclick="enterSmash()" class="bg-blue-600 hover:bg-blue-700 text-white text-2xl md:text-3xl font-bold px-6 py-6 md:py-8 rounded-2xl">Smash</button>
+<button onclick="enterMatch()" class="bg-green-600 hover:bg-green-700 text-white text-2xl md:text-3xl font-bold px-6 py-6 md:py-8 rounded-2xl">Match</button>
+</div>
+</div>
+<!-- PAGE SMASH -->
+<div id="appPage" class="hidden">
+<div class="text-center mb-6">
+<h1 class="text-3xl md:text-4xl font-bold text-gray-800">Smash Tennis de Table</h1>
+<p class="text-gray-500 text-sm md:text-base">Série de 10 smashs</p>
+</div>
+<div class="text-center mb-6">
+<p class="text-gray-500 text-lg">Score</p>
+<div id="score" class="text-6xl md:text-7xl font-bold text-blue-600">0</div>
+</div>
+<div class="mb-6">
+<p class="text-center text-gray-600 text-sm md:text-base mb-2">Smash restants : <span id="remaining">10</span></p>
+<div class="w-full bg-gray-200 rounded-full h-5 md:h-6">
+<div id="progress" class="bg-blue-500 h-5 md:h-6 rounded-full" style="width:0%"></div>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+<button onclick="addPoints(100)" class="bg-green-500 hover:bg-green-600 text-white p-5 md:p-6 rounded-2xl text-xl md:text-2xl font-bold">Après 2ème corde<br><span class="text-xs md:text-sm">100 pts</span></button>
+<button onclick="addPoints(10)" class="bg-blue-500 hover:bg-blue-600 text-white p-5 md:p-6 rounded-2xl text-xl md:text-2xl font-bold">Après 1ère corde<br><span class="text-xs md:text-sm">10 pts</span></button>
+<button onclick="addPoints(1)" class="bg-yellow-500 hover:bg-yellow-600 text-white p-5 md:p-6 rounded-2xl text-xl md:text-2xl font-bold">Avant 1ère corde<br><span class="text-xs md:text-sm">1 pt</span></button>
+<button onclick="addPoints(0)" class="bg-red-500 hover:bg-red-600 text-white p-5 md:p-6 rounded-2xl text-xl md:text-2xl font-bold">Faute<br><span class="text-xs md:text-sm">0 pt</span></button>
+</div>
+<div class="mt-6 bg-gray-100 p-5 md:p-6 rounded-2xl text-lg md:text-xl space-y-2 md:space-y-3">
+<p>Nombre de frappes : <span id="totalHits">0</span></p>
+<p>Smash réussis : <span id="successfulSmash">0</span></p>
+<p>Après 1ère corde : <span id="firstCord">0</span></p>
+<p>Après 2ème corde : <span id="secondCord">0</span></p>
+<p>Avant 1ère corde : <span id="beforeFirst">0</span></p>
+<p>Taux de réussite : <span id="successRate">0%</span></p>
+</div>
+<div class="mt-6 grid grid-cols-3 gap-4 md:gap-6">
+<button onclick="goHome()" class="bg-blue-500 hover:bg-blue-600 text-white py-4 md:py-5 rounded-2xl font-semibold">Accueil</button>
+<button onclick="undo()" class="bg-orange-500 hover:bg-orange-600 text-white py-4 md:py-5 rounded-2xl font-semibold">Annuler</button>
+<button onclick="resetScore()" class="bg-gray-800 hover:bg-black text-white py-4 md:py-5 rounded-2xl font-semibold">Réinitialiser</button>
+</div>
+</div>
+<!-- PAGE MATCH -->
+<div id="matchPage" class="hidden">
+<div class="text-center mb-6">
+<h1 class="text-3xl md:text-4xl font-bold text-gray-800">Match EPS</h1>
+<p class="text-gray-500 text-sm md:text-base mb-4">Premier à 7 points ou 2 smashs gagnants</p>
+</div>
+<div class="mb-6 space-y-2">
+<p class="text-gray-600 md:text-lg">Score Joueur 1 : <span id="player1Score">0</span></p>
+<p class="text-gray-600 md:text-lg">Score Joueur 2 : <span id="player2Score">0</span></p>
+<p class="text-gray-600 md:text-lg">Smashs gagnants : <span id="player1Smash">0</span> - <span id="player2Smash">0</span></p>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-4">
+<button onclick="addPoint('player1')" class="bg-blue-500 hover:bg-blue-600 text-white p-5 rounded-2xl font-bold">Point gagnant Joueur 1</button>
+<button onclick="addPoint('player2')" class="bg-red-500 hover:bg-red-600 text-white p-5 rounded-2xl font-bold">Point gagnant Joueur 2</button>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-4">
+<button onclick="addSmash('player1')" class="bg-blue-400 hover:bg-blue-500 text-white p-5 rounded-2xl font-bold">Smash gagnant Joueur 1</button>
+<button onclick="addSmash('player2')" class="bg-red-400 hover:bg-red-500 text-white p-5 rounded-2xl font-bold">Smash gagnant Joueur 2</button>
+</div>
+<div id="winnerDisplay" class="text-center text-3xl md:text-4xl font-bold text-green-600 mb-4 hidden"></div>
+<div class="grid grid-cols-2 gap-4">
+<button onclick="goHome()" class="bg-blue-500 hover:bg-blue-600 text-white py-4 rounded-2xl font-semibold">Accueil</button>
+<button onclick="resetMatch()" class="bg-gray-800 hover:bg-black text-white py-4 rounded-2xl font-semibold">Réinitialiser Match</button>
+</div>
+</div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
